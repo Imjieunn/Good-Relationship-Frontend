@@ -179,7 +179,7 @@ export default function Chatting() {
 	}, [messageHistory.lastMsgId]);
 
 	useEffect(() => {
-		if (!messageHistory.end && inView) {
+		if (!messageHistory.end && inView && messageHistory.lastMsgId) {
 			getHistoryMessage(messageHistory.lastMsgId);
 		}
 	}, [inView]);

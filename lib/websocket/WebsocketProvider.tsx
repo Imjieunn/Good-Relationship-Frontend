@@ -30,7 +30,7 @@ export const WebsocketProvider = ({ children }: { children: ReactNode }) => {
 				const client = new Client({
 					brokerURL: `${process.env.NEXT_PUBLIC_WEBSOCKET_URL}`,
 					connectHeaders: {
-						Authorization: `${access}`,
+						Authorization: `Bearer ${access}`,
 					},
 					reconnectDelay: 5000,
 					heartbeatIncoming: 4000,
