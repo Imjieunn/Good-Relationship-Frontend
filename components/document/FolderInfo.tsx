@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import React, { useState } from 'react';
 
 import DocumentInput from './DocumentInput';
@@ -10,7 +9,11 @@ import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../ui/pop
 import { cn } from '@/lib/utils';
 import { GetDocumentFolderInfoDTO } from '@/models/document/getDocumentFolderInfoDTO';
 
-const FolderInfo = ({ folderId, folderName, isOpen }: GetDocumentFolderInfoDTO) => {
+interface FolderInfoProps extends GetDocumentFolderInfoDTO {
+	onFolderSelect: (folderId: number) => void;
+}
+
+const FolderInfo = ({ folderId, folderName, isOpen, onFolderSelect }: FolderInfoProps) => {
 	const [isEdit, setIsEdit] = useState(false);
 	const [newFolderName, setNewFolderName] = useState(folderName);
 
@@ -18,8 +21,20 @@ const FolderInfo = ({ folderId, folderName, isOpen }: GetDocumentFolderInfoDTO) 
 		setIsEdit(editState);
 	};
 
+	const handleDelete = () => {
+		console.log('폴더 삭제');
+	};
+
+	const handleAddFile = () => {
+		console.log('파일 추가');
+	};
+
 	const handleChange = (e: { target: { value: React.SetStateAction<string> } }) => {
 		setNewFolderName(e.target.value);
+	};
+
+	const handleSetFolders = () => {
+		onFolderSelect(folderId!);
 	};
 
 	return (
@@ -45,15 +60,15 @@ const FolderInfo = ({ folderId, folderName, isOpen }: GetDocumentFolderInfoDTO) 
 					changeEdit={changeEdit}
 				/>
 			) : (
-				<Link
-					href={`/workspace/document/${folderId}`}
+				<button
 					className={cn(
-						'pl-[10px] pt-1 typo-Body3 w-52',
+						'pl-[15px] pt-1 typo-Body3 w-52 flex items-start',
 						newFolderName == 'Untitled' ? 'text-gray-300 italic' : '',
 					)}
+					onClick={handleSetFolders}
 				>
 					{newFolderName}
-				</Link>
+				</button>
 			)}
 
 			<div className="flex justify-end pt-1">
@@ -79,7 +94,12 @@ const FolderInfo = ({ folderId, folderName, isOpen }: GetDocumentFolderInfoDTO) 
 							</div>
 						</PopoverClose>
 						<PopoverClose asChild>
-							<div className="w-full h-full p-3 hover:bg-gray-100 cursor-pointer rounded-b-xl">삭제</div>
+							<div
+								className="w-full h-full p-3 hover:bg-gray-100 cursor-pointer rounded-b-xl"
+								onClick={handleDelete}
+							>
+								삭제
+							</div>
 						</PopoverClose>
 					</PopoverContent>
 				</Popover>
@@ -90,6 +110,7 @@ const FolderInfo = ({ folderId, folderName, isOpen }: GetDocumentFolderInfoDTO) 
 						width={16}
 						height={16}
 						className="cursor-pointer"
+						onClick={handleAddFile}
 					/>
 				</div>
 			</div>

@@ -10,7 +10,7 @@ const DocumentPage = ({ params }: { params: { folderId: string } }) => {
 		<div className="h-full flex flex-col">
 			<DocumentHeader />
 			<Link href={'/workspace/document'} className="mt-[20px] sm:hidden">
-				회의 &gt;
+				선택한폴더명 &gt;
 			</Link>
 			<div className="flex flex-1 mt-[20px] sm:mt-[40px] gap-[5vw]">
 				<FolderList folderId={folderId} />
