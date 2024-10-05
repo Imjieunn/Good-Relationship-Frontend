@@ -1,3 +1,7 @@
+import { Suspense } from 'react';
+
+import FolderListSkeleton from './FolderListSkeleton';
+
 import DocumentHeader from '@/components/document/DocumentHeader';
 import FolderList from '@/components/document/FolderList';
 
@@ -7,8 +11,10 @@ const DocumentPage = () => {
 	return (
 		<div className="h-full flex flex-col">
 			<DocumentHeader />
-			<div className="flex flex-1 mt-[40px] gap-[5vw]">
-				<FolderList />
+			<div className="flex flex-1 mt-[40px]">
+				<Suspense fallback={<FolderListSkeleton />}>
+					<FolderList />
+				</Suspense>
 			</div>
 		</div>
 	);
