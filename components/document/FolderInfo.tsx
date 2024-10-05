@@ -18,8 +18,7 @@ interface FolderInfoProps {
 const FolderInfo = ({ folderId, onFolderSelect }: FolderInfoProps) => {
 	const folders = useRecoilValue(getFolders);
 
-	const targetFolder = folders.find((folder) => folderId === folder.folderId);
-	console.log(targetFolder);
+	const targetFolder = folders.folderInfo.find((folder) => folderId === folder.folderId);
 
 	const [isEdit, setIsEdit] = useState(false);
 	const [newFolderName, setNewFolderName] = useState(targetFolder!.folderName);
@@ -44,15 +43,19 @@ const FolderInfo = ({ folderId, onFolderSelect }: FolderInfoProps) => {
 		onFolderSelect(folderId!);
 	};
 
+	const isSelectedFolder = (folderId: number | undefined) => {
+		return folderId === folders.openFolder;
+	};
+
 	return (
 		<div
 			className={cn(
 				'flex h-10 sm:w-[30vw] max-w-[300px] items-center px-2 hover:bg-Gray-100 hover:rounded-md my-2 cursor-pointer',
-				targetFolder!.isOpen ? 'bg-Gray-100 rounded-md' : '',
+				isSelectedFolder(folderId) ? 'bg-Gray-100 rounded-md' : '',
 			)}
 		>
 			<Image
-				src={targetFolder!.isOpen ? '/icons/folder_open.svg' : '/icons/folder_close.svg'}
+				src={isSelectedFolder(folderId) ? '/icons/folder_open.svg' : '/icons/folder_close.svg'}
 				alt="open folder"
 				width={28}
 				height={28}

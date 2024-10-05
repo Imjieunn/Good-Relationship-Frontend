@@ -9,7 +9,6 @@ const DocumentPage = () => {
 			<DocumentHeader />
 			<div className="flex flex-1 mt-[40px] gap-[5vw]">
 				<FolderList />
-				{/* <FileList /> */}
 			</div>
 		</div>
 	);

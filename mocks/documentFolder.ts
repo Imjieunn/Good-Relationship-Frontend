@@ -1,10 +1,9 @@
-import { GetDocumentFolderInfoDTO } from '@/models/document/getDocumentFolderInfoDTO';
+import { GetDocumentFolderStateDTO } from '../models/document/getDocumentFolderStateDTO';
 
-export const mockGetDocumenFoldertInfoData: GetDocumentFolderInfoDTO[] = [
+export const mockGetDocumenFoldertInfoData: GetDocumentFolderStateDTO[] = [
 	{
 		folderId: 1,
 		folderName: 'folder1 으하하하하하하',
-		isOpen: true,
 		files: [
 			{
 				fileId: 1,
@@ -23,7 +22,6 @@ export const mockGetDocumenFoldertInfoData: GetDocumentFolderInfoDTO[] = [
 	{
 		folderId: 2,
 		folderName: 'folder2',
-		isOpen: false,
 		files: [
 			{
 				fileId: 4,
@@ -42,7 +40,6 @@ export const mockGetDocumenFoldertInfoData: GetDocumentFolderInfoDTO[] = [
 	{
 		folderId: 3,
 		folderName: 'Untitled',
-		isOpen: false,
 		files: [],
 	},
 ];

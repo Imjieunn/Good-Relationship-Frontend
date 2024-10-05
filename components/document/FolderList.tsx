@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -9,39 +9,25 @@ import FolderInfo from './FolderInfo';
 import { mockGetDocumenFoldertInfoData } from '@/mocks/documentFolder';
 import { getFolders } from '@/stores/atoms/getFolders';
 
-interface folderInfoData {
-	folderId?: string;
-}
-
-const FolderList = ({ folderId }: folderInfoData) => {
+const FolderList = () => {
 	const [folders, setFolders] = useRecoilState(getFolders);
+
 	useEffect(() => {
-		setFolders(mockGetDocumenFoldertInfoData);
+		setFolders((prev) => ({ ...prev, folderInfo: mockGetDocumenFoldertInfoData }));
 	}, []);
 
-	const router = useRouter();
-
 	const handleFolderState = (selectedFolderId: number) => {
-		router.push(`/workspace/document/${selectedFolderId}`);
-
-		const updatedFolder = folders.map((folder) => {
-			if (folder.folderId == selectedFolderId) {
-				return { ...folder, isOpen: true };
-			} else {
-				return { ...folder, isOpen: false };
-			}
-		});
-		setFolders(updatedFolder);
+		setFolders((prev) => ({ ...prev, openFolder: selectedFolderId }));
 	};
 
 	return (
 		<div className="flex gap-[5vw]">
-			<div className={`${folderId ? 'hidden' : 'block'} sm:block h-full max-h-[480px]`}>
-				{folders.map((folder) => {
+			<div className={`sm:block h-full max-h-[480px]`}>
+				{folders.folderInfo.map((folder) => {
 					return <FolderInfo folderId={folder.folderId} onFolderSelect={handleFolderState} />;
 				})}
 			</div>
-			<FileList />
+			<FileList folderId={folders.openFolder} />
 		</div>
 	);
 };
