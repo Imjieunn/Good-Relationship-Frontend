@@ -1,36 +1,61 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import DocumentInput from './DocumentInput';
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 import { cn } from '@/lib/utils';
-import { GetDocumentFolderInfoDTO } from '@/models/document/getDocumentFolderInfoDTO';
+import { getFolders } from '@/stores/atoms/getFolders';
 
-const FolderInfo = ({ folderId, folderName, isOpen }: GetDocumentFolderInfoDTO) => {
+interface FolderInfoProps {
+	folderId?: number;
+	onFolderSelect: (folderId: number) => void;
+}
+
+const FolderInfo = ({ folderId, onFolderSelect }: FolderInfoProps) => {
+	const folders = useRecoilValue(getFolders);
+
+	const targetFolder = folders.folderInfo.find((folder) => folderId === folder.folderId);
+
 	const [isEdit, setIsEdit] = useState(false);
-	const [newFolderName, setNewFolderName] = useState(folderName);
+	const [newFolderName, setNewFolderName] = useState(targetFolder!.folderName);
 
 	const changeEdit = (editState: boolean) => {
 		setIsEdit(editState);
+	};
+
+	const handleDelete = () => {
+		console.log('폴더 삭제');
+	};
+
+	const handleAddFile = () => {
+		console.log('파일 추가');
 	};
 
 	const handleChange = (e: { target: { value: React.SetStateAction<string> } }) => {
 		setNewFolderName(e.target.value);
 	};
 
+	const handleSetFolders = () => {
+		onFolderSelect(folderId!);
+	};
+
+	const isSelectedFolder = (folderId: number | undefined) => {
+		return folderId === folders.openFolder;
+	};
+
 	return (
 		<div
 			className={cn(
 				'flex h-10 sm:w-[30vw] max-w-[300px] items-center px-2 hover:bg-Gray-100 hover:rounded-md my-2 cursor-pointer',
-				isOpen ? 'bg-Gray-100 rounded-md' : '',
+				isSelectedFolder(folderId) ? 'bg-Gray-100 rounded-md' : '',
 			)}
 		>
 			<Image
-				src={isOpen ? '/icons/folder_open.svg' : '/icons/folder_close.svg'}
+				src={isSelectedFolder(folderId) ? '/icons/folder_open.svg' : '/icons/folder_close.svg'}
 				alt="open folder"
 				width={28}
 				height={28}
@@ -45,15 +70,15 @@ const FolderInfo = ({ folderId, folderName, isOpen }: GetDocumentFolderInfoDTO) 
 					changeEdit={changeEdit}
 				/>
 			) : (
-				<Link
-					href={`/workspace/document/${folderId}`}
+				<button
 					className={cn(
-						'pl-[10px] pt-1 typo-Body3 w-52',
+						'pl-[15px] pt-1 typo-Body3 w-52 flex items-start',
 						newFolderName == 'Untitled' ? 'text-gray-300 italic' : '',
 					)}
+					onClick={handleSetFolders}
 				>
 					{newFolderName}
-				</Link>
+				</button>
 			)}
 
 			<div className="flex justify-end pt-1">
@@ -79,7 +104,12 @@ const FolderInfo = ({ folderId, folderName, isOpen }: GetDocumentFolderInfoDTO) 
 							</div>
 						</PopoverClose>
 						<PopoverClose asChild>
-							<div className="w-full h-full p-3 hover:bg-gray-100 cursor-pointer rounded-b-xl">삭제</div>
+							<div
+								className="w-full h-full p-3 hover:bg-gray-100 cursor-pointer rounded-b-xl"
+								onClick={handleDelete}
+							>
+								삭제
+							</div>
 						</PopoverClose>
 					</PopoverContent>
 				</Popover>
@@ -90,6 +120,7 @@ const FolderInfo = ({ folderId, folderName, isOpen }: GetDocumentFolderInfoDTO) 
 						width={16}
 						height={16}
 						className="cursor-pointer"
+						onClick={handleAddFile}
 					/>
 				</div>
 			</div>

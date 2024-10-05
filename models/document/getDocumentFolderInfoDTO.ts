@@ -1,5 +1,6 @@
+import { GetDocumentFolderStateDTO } from './getDocumentFolderStateDTO';
+
 export type GetDocumentFolderInfoDTO = {
-	folderId?: number;
-	folderName: string;
-	isOpen?: boolean;
+	folderInfo: GetDocumentFolderStateDTO[];
+	openFolder: number | undefined;
 };

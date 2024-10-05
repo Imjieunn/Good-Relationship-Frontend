@@ -10,7 +10,7 @@ import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../ui/pop
 import { cn } from '@/lib/utils';
 import { GetDocumentFileInfoDTO } from '@/models/document/getDocumentFileInfoDTO';
 
-const FileInfo = ({ folderId, fileName, fileId }: GetDocumentFileInfoDTO) => {
+const FileInfo = ({ fileName, fileId }: GetDocumentFileInfoDTO & { folderId: number }) => {
 	const [isEdit, setIsEdit] = useState(false);
 	const [newFileName, setNewFileName] = useState(fileName);
 
@@ -34,7 +34,7 @@ const FileInfo = ({ folderId, fileName, fileId }: GetDocumentFileInfoDTO) => {
 						changeEdit={changeEdit}
 					/>
 				) : (
-					<Link href={`/workspace/document/${folderId}/${fileId}`}>
+					<Link href={`/workspace/document/${fileId}`}>
 						<p
 							className={cn(
 								'pl-[10px] pt-1 typo-Body4 flex-1',
