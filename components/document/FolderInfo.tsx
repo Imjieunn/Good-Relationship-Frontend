@@ -2,20 +2,27 @@
 
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import DocumentInput from './DocumentInput';
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 import { cn } from '@/lib/utils';
-import { GetDocumentFolderInfoDTO } from '@/models/document/getDocumentFolderInfoDTO';
+import { getFolders } from '@/stores/atoms/getFolders';
 
-interface FolderInfoProps extends GetDocumentFolderInfoDTO {
+interface FolderInfoProps {
+	folderId?: number;
 	onFolderSelect: (folderId: number) => void;
 }
 
-const FolderInfo = ({ folderId, folderName, isOpen, onFolderSelect }: FolderInfoProps) => {
+const FolderInfo = ({ folderId, onFolderSelect }: FolderInfoProps) => {
+	const folders = useRecoilValue(getFolders);
+
+	const targetFolder = folders.find((folder) => folderId === folder.folderId);
+	console.log(targetFolder);
+
 	const [isEdit, setIsEdit] = useState(false);
-	const [newFolderName, setNewFolderName] = useState(folderName);
+	const [newFolderName, setNewFolderName] = useState(targetFolder!.folderName);
 
 	const changeEdit = (editState: boolean) => {
 		setIsEdit(editState);
@@ -41,11 +48,11 @@ const FolderInfo = ({ folderId, folderName, isOpen, onFolderSelect }: FolderInfo
 		<div
 			className={cn(
 				'flex h-10 sm:w-[30vw] max-w-[300px] items-center px-2 hover:bg-Gray-100 hover:rounded-md my-2 cursor-pointer',
-				isOpen ? 'bg-Gray-100 rounded-md' : '',
+				targetFolder!.isOpen ? 'bg-Gray-100 rounded-md' : '',
 			)}
 		>
 			<Image
-				src={isOpen ? '/icons/folder_open.svg' : '/icons/folder_close.svg'}
+				src={targetFolder!.isOpen ? '/icons/folder_open.svg' : '/icons/folder_close.svg'}
 				alt="open folder"
 				width={28}
 				height={28}
