@@ -1,3 +1,5 @@
+export const SLIDES_LENGTH = 3;
+
 export const titles = [
 	'캡스톤 디자인 맞춤 서비스\n조은사이',
 	'회의 진행도\n조은사이에서',
