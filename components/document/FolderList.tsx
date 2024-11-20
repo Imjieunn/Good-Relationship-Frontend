@@ -7,6 +7,7 @@ import FileList from './FileList';
 import FolderInfo from './FolderInfo';
 
 import { mockGetDocumenFoldertInfoData } from '@/mocks/documentFolder';
+import { FolderId } from '@/models/document/entity/document';
 import { getFolders } from '@/stores/atoms/getFolders';
 
 const FolderList = () => {
@@ -16,7 +17,7 @@ const FolderList = () => {
 		setFolders((prev) => ({ ...prev, folderInfo: mockGetDocumenFoldertInfoData }));
 	}, []);
 
-	const handleFolderState = (selectedFolderId: number) => {
+	const handleFolderState = (selectedFolderId: FolderId) => {
 		setFolders((prev) => ({ ...prev, openFolder: selectedFolderId }));
 	};
 
@@ -27,7 +28,7 @@ const FolderList = () => {
 					return <FolderInfo folderId={folder.folderId} onFolderSelect={handleFolderState} />;
 				})}
 			</div>
-			<FileList folderId={folders.openFolder} />
+			<FileList folderId={folders.openFolderID} />
 		</div>
 	);
 };

@@ -1,11 +1,11 @@
 import { atom } from 'recoil';
 
-import { GetDocumentFolderInfoDTO } from '@/models/document/getDocumentFolderInfoDTO';
+import { FolderStateDTO } from '@/models/document/entity/document';
 
-export const getFolders = atom<GetDocumentFolderInfoDTO>({
+export const getFolders = atom<FolderStateDTO>({
 	key: 'getFolders',
 	default: {
 		folderInfo: [],
-		openFolder: undefined,
+		openFolderID: undefined,
 	},
 });

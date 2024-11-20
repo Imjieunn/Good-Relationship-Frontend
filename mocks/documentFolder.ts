@@ -1,6 +1,6 @@
-import { GetDocumentFolderStateDTO } from '../models/document/getDocumentFolderStateDTO';
+import { GetFolderAndFileDTO } from '@/models/document/response/getFolderAndFileInfo';
 
-export const mockGetDocumenFoldertInfoData: GetDocumentFolderStateDTO[] = [
+export const mockGetDocumenFoldertInfoData: GetFolderAndFileDTO[] = [
 	{
 		folderId: 1,
 		folderName: 'folder1 으하하하하하하',

@@ -9,7 +9,7 @@ const DocumentHeader = () => {
 
 	const addFolder = () => {
 		console.log('폴더 추가!');
-		setFolders([...folders, { folderId: 4, folderName: 'Untitled', isOpen: false }]);
+		setFolders([...folders, { folderId: 4, folderName: 'Untitled', files: [] }]);
 	};
 
 	// useEffect(() => {
