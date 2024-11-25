@@ -2,17 +2,35 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import DocumentInput from './DocumentInput';
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../ui/popover';
 
+import { updateFileName } from '@/apis/document';
+import { useDocumentLists } from '@/hooks/documentInfo';
 import { cn } from '@/lib/utils';
-import { GetDocumentFileInfoDTO } from '@/models/document/getDocumentFileInfoDTO';
+import { SelectFileInfoDTO } from '@/models/document/request/createFileInfo';
 
-const FileInfo = ({ fileName, fileId }: GetDocumentFileInfoDTO & { folderId: number }) => {
+const FileInfo = ({ folderId, fileId, fileName }: SelectFileInfoDTO) => {
+	const { fetchDocumentLists } = useDocumentLists();
+
 	const [isEdit, setIsEdit] = useState(false);
 	const [newFileName, setNewFileName] = useState(fileName);
+
+	console.log(folderId);
+
+	const updateFileInfo = useCallback(async () => {
+		await updateFileName(fileId, newFileName);
+		// console.log(`${newFileName}로 파일명 변경 성공!!`);
+		fetchDocumentLists();
+	}, [newFileName, fileId, fetchDocumentLists]);
+
+	useEffect(() => {
+		if (!isEdit) {
+			updateFileInfo();
+		}
+	}, [isEdit]);
 
 	const changeEdit = (editState: boolean) => {
 		setIsEdit(editState);

@@ -1,12 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import DocumentInput from './DocumentInput';
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../ui/popover';
 
+import { createNewFile, deleteFolder, updateFolderName } from '@/apis/document';
+import { useDocumentLists } from '@/hooks/documentInfo';
 import { cn } from '@/lib/utils';
 import { getFolders } from '@/stores/atoms/getFolders';
 
@@ -18,34 +20,57 @@ interface FolderInfoProps {
 const FolderInfo = ({ folderId, onFolderSelect }: FolderInfoProps) => {
 	const folders = useRecoilValue(getFolders);
 
+	const { fetchDocumentLists } = useDocumentLists();
+
 	const targetFolder = folders.folderInfo.find((folder) => folderId === folder.folderId);
 
 	const [isEdit, setIsEdit] = useState(false);
 	const [newFolderName, setNewFolderName] = useState(targetFolder!.folderName);
 
+	const updateFolderInfo = useCallback(async () => {
+		if (newFolderName !== targetFolder!.folderName) {
+			// const res =
+			await updateFolderName({ folderName: newFolderName }, folderId);
+			// console.log(res);
+			fetchDocumentLists();
+		}
+	}, [newFolderName, folderId, fetchDocumentLists, targetFolder]);
+
 	const changeEdit = (editState: boolean) => {
 		setIsEdit(editState);
 	};
 
-	const handleDelete = () => {
-		console.log('폴더 삭제');
+	const handleDeleteFolder = async () => {
+		await deleteFolder(folderId);
+		fetchDocumentLists();
 	};
 
-	const handleAddFile = () => {
-		console.log('파일 추가');
+	const handleAddFile = async () => {
+		await createNewFile({ folderId: folders.openFolderID, fileName: 'Untitled' });
+		fetchDocumentLists();
 	};
 
-	const handleChange = (e: { target: { value: React.SetStateAction<string> } }) => {
+	const handleChange = useCallback((e: { target: { value: React.SetStateAction<string> } }) => {
 		setNewFolderName(e.target.value);
-	};
+	}, []);
 
 	const handleSetFolders = () => {
+		console.log(folderId);
 		onFolderSelect(folderId!);
 	};
 
 	const isSelectedFolder = (folderId: number | undefined) => {
-		return folderId === folders.openFolder;
+		return folderId === folders.openFolderID;
 	};
+
+	useEffect(() => {
+		// newFolderName이 변경되면 updateFolderInfo 실행
+		if (newFolderName !== targetFolder!.folderName) {
+			if (!isEdit) {
+				updateFolderInfo();
+			}
+		}
+	}, [isEdit]);
 
 	return (
 		<div
@@ -106,7 +131,7 @@ const FolderInfo = ({ folderId, onFolderSelect }: FolderInfoProps) => {
 						<PopoverClose asChild>
 							<div
 								className="w-full h-full p-3 hover:bg-gray-100 cursor-pointer rounded-b-xl"
-								onClick={handleDelete}
+								onClick={handleDeleteFolder}
 							>
 								삭제
 							</div>

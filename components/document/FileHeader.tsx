@@ -1,8 +1,23 @@
+'use client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../ui/popover';
 
-const FileHeader = () => {
+import { deleteFile } from '@/apis/document';
+
+interface FileHeaderProps {
+	fileId: number; // fileId는 number 타입
+}
+
+const FileHeader = ({ fileId }: FileHeaderProps) => {
+	const router = useRouter();
+
+	const handleDeleteFile = async () => {
+		await deleteFile(fileId);
+
+		router.push('/workspace/document');
+	};
 	return (
 		<div className="flex gap-5 items-center">
 			<div className="relative w-9 h-9 min-w-5 min-h-5">
@@ -29,7 +44,12 @@ const FileHeader = () => {
 							</div>
 						</PopoverClose>
 						<PopoverClose asChild>
-							<div className="w-full h-full p-3 hover:bg-gray-100 cursor-pointer rounded-b-xl">삭제</div>
+							<div
+								className="w-full h-full p-3 hover:bg-gray-100 cursor-pointer rounded-b-xl"
+								onClick={handleDeleteFile}
+							>
+								삭제
+							</div>
 						</PopoverClose>
 					</PopoverContent>
 				</Popover>

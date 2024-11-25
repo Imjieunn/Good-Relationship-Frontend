@@ -1,20 +1,16 @@
 'use client';
 import Image from 'next/image';
-import { useState } from 'react';
 
-import { mockGetDocumenFoldertInfoData } from '@/mocks/documentFolder';
+import { createNewFolder } from '@/apis/document';
+import { useDocumentLists } from '@/hooks/documentInfo';
 
 const DocumentHeader = () => {
-	const [folders, setFolders] = useState(mockGetDocumenFoldertInfoData);
+	const { fetchDocumentLists } = useDocumentLists();
 
-	const addFolder = () => {
-		console.log('폴더 추가!');
-		setFolders([...folders, { folderId: 4, folderName: 'Untitled', files: [] }]);
+	const addFolder = async () => {
+		await createNewFolder({ folderName: 'Untitled' });
+		fetchDocumentLists();
 	};
-
-	// useEffect(() => {
-	// 	console.log('현재 폴더 상태: ', folders);
-	// }, [folders]);
 
 	return (
 		<div className="w-full typo-Header4 flex gap-3">
