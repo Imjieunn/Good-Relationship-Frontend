@@ -5,9 +5,8 @@ const FilePage = ({ params }: { params: { fileId: number } }) => {
 	const { fileId } = params;
 	return (
 		<>
-			<div>파일 번호 : {fileId}</div>
 			<FileHeader fileId={fileId} />
-			<FileContent />
+			<FileContent fileId={fileId} />
 		</>
 	);
 };

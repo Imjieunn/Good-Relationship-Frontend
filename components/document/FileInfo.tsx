@@ -18,13 +18,14 @@ const FileInfo = ({ folderId, fileId, fileName }: SelectFileInfoDTO) => {
 	const [isEdit, setIsEdit] = useState(false);
 	const [newFileName, setNewFileName] = useState(fileName);
 
-	console.log(folderId);
+	console.log(folderId); // 나중에 삭제 예정
 
 	const updateFileInfo = useCallback(async () => {
-		await updateFileName(fileId, newFileName);
-		// console.log(`${newFileName}로 파일명 변경 성공!!`);
-		fetchDocumentLists();
-	}, [newFileName, fileId, fetchDocumentLists]);
+		if (newFileName !== fileName) {
+			await updateFileName(fileId, newFileName);
+			fetchDocumentLists();
+		}
+	}, [newFileName]);
 
 	useEffect(() => {
 		if (!isEdit) {

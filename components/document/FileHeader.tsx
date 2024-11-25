@@ -1,16 +1,28 @@
 'use client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../ui/popover';
 
-import { deleteFile } from '@/apis/document';
+import { deleteFile, getFileContent } from '@/apis/document';
 
 interface FileHeaderProps {
 	fileId: number; // fileId는 number 타입
 }
 
 const FileHeader = ({ fileId }: FileHeaderProps) => {
+	const [currentFileInfo, setCurrentFileInfo] = useState({ fileId: undefined, fileName: undefined, content: '' });
+
+	useEffect(() => {
+		const getCurrentFileInfo = async () => {
+			const res = await getFileContent(fileId);
+			setCurrentFileInfo(res);
+		};
+
+		getCurrentFileInfo();
+	}, []);
+
 	const router = useRouter();
 
 	const handleDeleteFile = async () => {
@@ -23,7 +35,8 @@ const FileHeader = ({ fileId }: FileHeaderProps) => {
 			<div className="relative w-9 h-9 min-w-5 min-h-5">
 				<Image src="/icons/documentFile.svg" fill alt="search icon" />
 			</div>
-			<p className="typo-SubHeader3 sm:typo-Header4">기록 &gt; folder1 &gt; file2</p>
+			{/* <p className="typo-SubHeader3 sm:typo-Header4">기록 &gt; 폴더명 &gt; {currentFileInfo.fileName}</p> */}
+			<p className="typo-SubHeader3 sm:typo-Header4">{currentFileInfo.fileName}</p>
 
 			<div className="flex pt-1 pr-2">
 				<Popover>

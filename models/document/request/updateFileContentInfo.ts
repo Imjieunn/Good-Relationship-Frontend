@@ -5,3 +5,7 @@ export type UpdateFileContentDTO = {
 	folderName: FolderName;
 	content: Content;
 };
+
+export type PatchFileContentDTO = {
+	content: Content;
+};
