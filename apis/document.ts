@@ -1,6 +1,7 @@
 import { FileId, FileName, FolderId } from '@/models/document/entity/document';
 import { CreateFileInfoDTO, CreateOnlyFileInfoDTO } from '@/models/document/request/createFileInfo';
 import { CreateFolderInfoDTO } from '@/models/document/request/createFolderInfo';
+import { PatchFileContentDTO } from '@/models/document/request/updateFileContentInfo';
 import { fetcher } from '@/utils/fetcher';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -70,7 +71,8 @@ export const deleteFile = async (fileId: FileId) => {
 // 문서 조회
 export const getFileContent = async (fileId: FileId) => {
 	const url = `${baseUrl}/docs/file/${fileId}`;
-	await fetcher(url, true);
+	const fetch = await fetcher(url, true);
+	return fetch;
 };
 
 // 문서 수정
@@ -83,4 +85,11 @@ export const updateFileContent = async ({ fileId, fileName, folderId, content }:
 	return fetch;
 };
 
-// 문서 삭제(api 없음)
+// 문서 내용 수정
+export const patchFileContent = async (fileId: FileId, { content }: PatchFileContentDTO) => {
+	const url = `${baseUrl}/docs/file/${fileId}`;
+	await fetcher(url, true, {
+		method: 'PATCH',
+		body: JSON.stringify({ content }),
+	});
+};
