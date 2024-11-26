@@ -2,6 +2,7 @@
 
 import { Client } from '@stomp/stompjs';
 import { createContext, ReactNode, useContext, useEffect, useRef } from 'react';
+import SockJS from 'sockjs-client';
 
 const WebsocketContext = createContext<Client>({} as Client);
 
@@ -29,6 +30,7 @@ const initializeWebsocket = (accessToken: string) => {
 		debug: (str) => {
 			console.log(str);
 		},
+		webSocketFactory: () => new SockJS(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}`),
 	});
 
 	stompClient.activate();
