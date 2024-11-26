@@ -1,3 +1,13 @@
+import Footer from '@/components/footer/Footer';
+import Slider from '@/components/slider/Slider';
+
 export default function Home() {
-	return <main>랜딩 페이지</main>;
+	return (
+		<div className="h-full">
+			<main className="h-full">
+				<Slider />
+			</main>
+			<Footer />
+		</div>
+	);
 }
