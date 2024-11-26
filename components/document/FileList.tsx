@@ -12,9 +12,8 @@ const FileList = ({ folderId }: fileDocument) => {
 	const folders = useRecoilValue(getFolders);
 
 	return (
-		<div className={`${folderId ? 'block' : 'hidden'} sm:block w-full`}>
+		<div className={`${folderId ? 'block' : 'hidden'} sm:block w-full sm:border-l-4 border-l-gray-300 pl-[5vw]`}>
 			<div className="h-[60vh] flex overflow-y-auto">
-				<div className="sm:border-l-4 border-l-gray-300 mr-[5vw] h-full" />
 				<div className="overflow-y-auto overflow-x-hidden w-full sm:max-w-[320px]">
 					{folders.folderInfo.some((folder) => folder.folderId === folderId) ? (
 						folders.folderInfo

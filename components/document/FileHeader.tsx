@@ -30,6 +30,7 @@ const FileHeader = ({ fileId }: FileHeaderProps) => {
 
 		router.push('/workspace/document');
 	};
+
 	return (
 		<div className="flex gap-5 items-center">
 			<div className="relative w-9 h-9 min-w-5 min-h-5">

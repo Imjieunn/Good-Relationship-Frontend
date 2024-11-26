@@ -75,7 +75,7 @@ const FolderInfo = ({ folderId, onFolderSelect }: FolderInfoProps) => {
 	return (
 		<div
 			className={cn(
-				'flex h-10 sm:w-[30vw] max-w-[300px] items-center px-2 hover:bg-Gray-100 hover:rounded-md my-2 cursor-pointer',
+				'flex h-10 sm:w-[30vw] max-w-[300px] items-center pl-2 mr-6 hover:bg-Gray-100 hover:rounded-md my-2 cursor-pointer',
 				isSelectedFolder(folderId) ? 'bg-Gray-100 rounded-md' : '',
 			)}
 		>
