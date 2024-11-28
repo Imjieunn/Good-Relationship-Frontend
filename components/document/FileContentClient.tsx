@@ -7,14 +7,13 @@ import Editor from './editor';
 interface FileContentClientProps {
 	fileId: number;
 	workspaceId: string;
+	liveBlockApi: string;
 }
 
-const FileContentClient = ({ fileId, workspaceId }: FileContentClientProps) => {
+const FileContentClient = ({ fileId, workspaceId, liveBlockApi }: FileContentClientProps) => {
 	return (
 		<div className="mt-8">
-			<LiveblocksProvider
-				publicApiKey={'pk_prod_TTYuOuBeUFo0F3yE3TWnVdKg150fOkiMmIPUQvOHKTFoHa5eAH2263GKyo_bQ26D'}
-			>
+			<LiveblocksProvider publicApiKey={liveBlockApi}>
 				<RoomProvider id={`${workspaceId}-${fileId}`}>
 					<Editor />
 				</RoomProvider>
