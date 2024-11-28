@@ -29,9 +29,7 @@ const FolderInfo = ({ folderId, onFolderSelect }: FolderInfoProps) => {
 
 	const updateFolderInfo = useCallback(async () => {
 		if (newFolderName !== targetFolder!.folderName) {
-			// const res =
 			await updateFolderName({ folderName: newFolderName }, folderId);
-			// console.log(res);
 			fetchDocumentLists();
 		}
 	}, [newFolderName, folderId, fetchDocumentLists, targetFolder]);
@@ -55,7 +53,6 @@ const FolderInfo = ({ folderId, onFolderSelect }: FolderInfoProps) => {
 	}, []);
 
 	const handleSetFolders = () => {
-		console.log(folderId);
 		onFolderSelect(folderId!);
 	};
 

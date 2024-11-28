@@ -12,13 +12,11 @@ import { useDocumentLists } from '@/hooks/documentInfo';
 import { cn } from '@/lib/utils';
 import { SelectFileInfoDTO } from '@/models/document/request/createFileInfo';
 
-const FileInfo = ({ folderId, fileId, fileName }: SelectFileInfoDTO) => {
+const FileInfo = ({ fileId, fileName }: SelectFileInfoDTO) => {
 	const { fetchDocumentLists } = useDocumentLists();
 
 	const [isEdit, setIsEdit] = useState(false);
 	const [newFileName, setNewFileName] = useState(fileName);
-
-	console.log(folderId); // 나중에 삭제 예정
 
 	const updateFileInfo = useCallback(async () => {
 		if (newFileName !== fileName) {

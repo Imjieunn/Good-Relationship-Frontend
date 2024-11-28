@@ -11,7 +11,7 @@ export type CreateFileInfoDTO = FileInfo & {
 };
 
 export type SelectFileInfoDTO = {
-	folderId: FolderId;
+	folderId?: FolderId;
 	fileId: FileId;
 	fileName: FileName;
 };

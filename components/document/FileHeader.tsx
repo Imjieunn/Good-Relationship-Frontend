@@ -8,7 +8,7 @@ import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from '../ui/pop
 import { deleteFile, getFileContent } from '@/apis/document';
 
 interface FileHeaderProps {
-	fileId: number; // fileId는 number 타입
+	fileId: number;
 }
 
 const FileHeader = ({ fileId }: FileHeaderProps) => {
@@ -60,11 +60,11 @@ const FileHeader = ({ fileId }: FileHeaderProps) => {
 						</div>
 					</PopoverTrigger>
 					<PopoverContent className="w-[120px] py-0">
-						<PopoverClose asChild>
+						{/* <PopoverClose asChild>
 							<div className="w-full h-full border-b-2 p-3 hover:bg-gray-100 cursor-pointer rounded-t-xl">
 								링크 공유
 							</div>
-						</PopoverClose>
+						</PopoverClose> */}
 						<PopoverClose asChild>
 							<div
 								className="w-full h-full p-3 hover:bg-gray-100 cursor-pointer rounded-b-xl"

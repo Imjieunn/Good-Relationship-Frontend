@@ -23,7 +23,7 @@ const FileList = ({ folderId }: fileDocument) => {
 									folder.files.map((file) => (
 										<FileInfo
 											key={file.fileId}
-											folderId={folder.folderId}
+											// folderId={folder.folderId}
 											fileName={file.fileName}
 											fileId={file.fileId}
 										/>
