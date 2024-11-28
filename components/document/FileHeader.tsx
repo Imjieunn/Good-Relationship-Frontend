@@ -34,7 +34,15 @@ const FileHeader = ({ fileId }: FileHeaderProps) => {
 	return (
 		<div className="flex gap-5 items-center">
 			<div className="relative w-9 h-9 min-w-5 min-h-5">
-				<Image src="/icons/documentFile.svg" fill alt="search icon" />
+				<Image
+					src="/icons/documentFile.svg"
+					fill
+					alt="search icon"
+					onClick={() => {
+						router.back();
+					}}
+					style={{ cursor: 'pointer' }}
+				/>
 			</div>
 			{/* <p className="typo-SubHeader3 sm:typo-Header4">기록 &gt; 폴더명 &gt; {currentFileInfo.fileName}</p> */}
 			<p className="typo-SubHeader3 sm:typo-Header4">{currentFileInfo.fileName}</p>
